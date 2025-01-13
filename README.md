@@ -4,6 +4,6 @@ Este repositorio contiene los programas de R utilizados durante el curso
 
 Los programas están en la carpeta src.
 
-![](doc/R studio.png)
+![](doc/R%20studio.png)
 
 
