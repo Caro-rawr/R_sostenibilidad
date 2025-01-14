@@ -3,6 +3,6 @@ Este repositorio contiene los programas de R utilizados durante el curso de "Est
 ## Usos de los programas
 Los Scripts utilizados están en la carpeta src.
 
-![](doc/R%20studio.png)
+![](doc/lancis.jpg)
 
 
