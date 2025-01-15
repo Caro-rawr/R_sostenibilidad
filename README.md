@@ -3,6 +3,7 @@ Este repositorio contiene los programas de R utilizados durante el curso de "Est
 ## Usos de los programas
 Los Scripts utilizados están en la carpeta src.
 
-![](doc/lancis.jpg)
+<img src="doc/lancis.jpg" alt="Logo institucionaln" width="400">
+
 
 
