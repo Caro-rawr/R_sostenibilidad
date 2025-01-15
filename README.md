@@ -1,4 +1,4 @@
-# Estaística y modelación mateemática de sistemas socioeecológicos en R
+# Estadística y modelación matemática de sistemas socioecológicos en R
 El objetivo de este curso es capacitar a los alumnos en el uso de la programación en “R” para la estadística y
 desarrollo de modelos matemáticos de sistemas socioecológicos.
 Este repositorio contiene los programas de R utilizados durante el curso, así como ejemplos prácticos  y las bases de datos necesarias para ejecutarlos.
