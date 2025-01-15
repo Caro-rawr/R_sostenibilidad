@@ -24,7 +24,7 @@ using R. CRC Press, 447 pp.
 - Faraway J. 2006. Extending the Linear Model with R: Generalized Linear, Mixed Effects and
 Nonparametric regression models. Taylor and Francis, 324 pp.
 
-<img src="doc/lancis.jpg" alt="Logo institucionaln" width="300">
+<img src="doc/lancis.jpg" alt="Logo institucionaln" width="200">
 
 
 
