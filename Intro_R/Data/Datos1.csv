@@ -1,0 +1,129 @@
+,Municipio,AGEB,Poblacion,PoblacionPobre
+1,Tlahuac,1,235,44
+2,Tlahuac,2,210,40
+3,Tlahuac,3,227,40
+4,Tlahuac,4,259,37
+5,Tlahuac,5,274,50
+6,Tlahuac,6,275,39
+7,Tlahuac,7,227,34
+8,Tlahuac,8,241,36
+9,Tlalpan,1,259,41
+10,Tlalpan,2,233,35
+11,Tlalpan,3,270,44
+12,Tlalpan,4,251,31
+13,Tlalpan,5,239,48
+14,Tlalpan,6,258,45
+15,Tlalpan,7,217,45
+16,Tlalpan,8,275,40
+17,Miguel Hidalgo,1,253,41
+18,Miguel Hidalgo,2,293,39
+19,Miguel Hidalgo,3,229,33
+20,Miguel Hidalgo,4,281,40
+21,Miguel Hidalgo,5,244,34
+22,Miguel Hidalgo,6,270,42
+23,Miguel Hidalgo,7,210,50
+24,Miguel Hidalgo,8,221,35
+25,Cuauhtemoc,1,257,36
+26,Cuauhtemoc,2,231,29
+27,Cuauhtemoc,3,201,37
+28,Cuauhtemoc,4,267,41
+29,Cuauhtemoc,5,273,37
+30,Cuauhtemoc,6,219,42
+31,Cuauhtemoc,7,213,36
+32,Cuauhtemoc,8,276,43
+33,Venustiano Carranza,1,252,43
+34,Venustiano Carranza,2,236,38
+35,Venustiano Carranza,3,266,38
+36,Venustiano Carranza,4,225,42
+37,Venustiano Carranza,5,283,46
+38,Venustiano Carranza,6,300,38
+39,Venustiano Carranza,7,273,38
+40,Venustiano Carranza,8,250,45
+41,Coyoacan,1,299,39
+42,Coyoacan,2,212,42
+43,Coyoacan,3,281,37
+44,Coyoacan,4,248,44
+45,Coyoacan,5,206,52
+46,Coyoacan,6,266,41
+47,Coyoacan,7,201,46
+48,Coyoacan,8,208,50
+49,Benito Juarez,1,249,31
+50,Benito Juarez,2,266,54
+51,Benito Juarez,3,259,42
+52,Benito Juarez,4,259,39
+53,Benito Juarez,5,241,39
+54,Benito Juarez,6,240,38
+55,Benito Juarez,7,228,35
+56,Benito Juarez,8,250,51
+57,Cuajimalpa,1,229,44
+58,Cuajimalpa,2,223,42
+59,Cuajimalpa,3,233,39
+60,Cuajimalpa,4,222,48
+61,Cuajimalpa,5,288,39
+62,Cuajimalpa,6,260,41
+63,Cuajimalpa,7,294,32
+64,Cuajimalpa,8,298,41
+65,Magdalena Contreras,1,252,44
+66,Magdalena Contreras,2,293,40
+67,Magdalena Contreras,3,274,49
+68,Magdalena Contreras,4,275,42
+69,Magdalena Contreras,5,266,44
+70,Magdalena Contreras,6,278,44
+71,Magdalena Contreras,7,267,37
+72,Magdalena Contreras,8,209,44
+73,Xochimilco,1,263,39
+74,Xochimilco,2,258,37
+75,Xochimilco,3,209,41
+76,Xochimilco,4,201,39
+77,Xochimilco,5,278,34
+78,Xochimilco,6,246,34
+79,Xochimilco,7,293,40
+80,Xochimilco,8,237,47
+81,Azcapotzalco,1,254,44
+82,Azcapotzalco,2,262,43
+83,Azcapotzalco,3,215,36
+84,Azcapotzalco,4,293,44
+85,Azcapotzalco,5,283,33
+86,Azcapotzalco,6,267,39
+87,Azcapotzalco,7,248,40
+88,Azcapotzalco,8,220,44
+89,Gustavo A. Madero,1,285,46
+90,Gustavo A. Madero,2,226,41
+91,Gustavo A. Madero,3,259,48
+92,Gustavo A. Madero,4,278,33
+93,Gustavo A. Madero,5,252,47
+94,Gustavo A. Madero,6,270,39
+95,Gustavo A. Madero,7,208,52
+96,Gustavo A. Madero,8,270,38
+97,Iztacalco,1,270,47
+98,Iztacalco,2,219,38
+99,Iztacalco,3,299,32
+100,Iztacalco,4,227,33
+101,Iztacalco,5,277,44
+102,Iztacalco,6,257,38
+103,Iztacalco,7,207,40
+104,Iztacalco,8,268,34
+105,Iztapalapa,1,222,43
+106,Iztapalapa,2,253,47
+107,Iztapalapa,3,211,41
+108,Iztapalapa,4,296,36
+109,Iztapalapa,5,257,38
+110,Iztapalapa,6,291,37
+111,Iztapalapa,7,295,43
+112,Iztapalapa,8,284,49
+113,Milpa Alta,1,279,39
+114,Milpa Alta,2,224,41
+115,Milpa Alta,3,260,45
+116,Milpa Alta,4,249,38
+117,Milpa Alta,5,202,31
+118,Milpa Alta,6,217,48
+119,Milpa Alta,7,233,46
+120,Milpa Alta,8,297,37
+121,Alvaro Obregon,1,242,38
+122,Alvaro Obregon,2,300,47
+123,Alvaro Obregon,3,268,42
+124,Alvaro Obregon,4,248,31
+125,Alvaro Obregon,5,244,45
+126,Alvaro Obregon,6,213,37
+127,Alvaro Obregon,7,284,46
+128,Alvaro Obregon,8,271,32
