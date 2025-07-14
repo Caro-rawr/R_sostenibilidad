@@ -1,0 +1,246 @@
+---
+title: "Script6"
+author: "Yosune Miquelajauregui"
+date: "31/12/2017"
+output: word_document
+---
+
+## Modelos lineales generalizados
+## Regresión Poisson
+
+Función de densidad para valores que siguen una distribución Poisson con media dada por lamba 
+```{r  poisson función densidad, eval=TRUE}
+x1<-dpois(0:20, lambda=0.5)
+x2<-dpois(0:20, lambda=1)
+x3<-dpois(0:20, lambda=5)
+x4<-dpois(0:20, lambda=10)
+par(mfrow=c(2,2))
+barplot(x1, main=expression(paste("Distribución de Poisson con ", lambda, "= 0.5")), names.arg=0:20, ylab="Densidad de X", xlab="Valor de x")
+barplot(x2, main=expression(paste("Distribución de Poisson con ", lambda, "= 1")), names.arg=0:20, ylab="Densidad de X", xlab="Valor de x")
+barplot(x3, main=expression(paste("Distribución de Poisson con ", lambda, "= 5")), names.arg=0:20, ylab="Densidad de X", xlab="Valor de x")
+barplot(x4, main=expression(paste("Distribución de Poisson con ", lambda, "= 10")), names.arg=0:20, ylab="Densidad de X", xlab="Valor de x")
+```
+
+
+Regresión Poisson. Datos del libro Crawley
+```{r  importar datos, eval=TRUE}
+especies<-read.table("Species.txt", header=TRUE)
+str(especies)
+especies$pH <- factor(especies$pH , levels = c("low", "mid", "high"))
+levels(especies$pH)
+contrasts(especies$pH)
+
+##para cambiar el orden de los niveles de los factores
+especies$pH  <- factor (as.character(especies$pH ), levels=c("high", "mid", "low"))
+
+spp<-split(especies$Especie, especies$pH)  
+bio<-split(especies$Biomasa, especies$pH)
+par(mfrow=c(1,2))
+plot(especies$Especie~especies$pH, ylab="Número de especies", xlab="Clase de pH", main="Número de especies vs pH")
+plot(especies$Especie~especies$Biomasa, ylab="Número de especies", xlab="Biomasa", main="Número de especies vs Biomasa")
+```
+
+Ajustar un modelo de regresión Poisson
+```{r  modelo Poisson, eval=TRUE}
+mod1<-glm(Especie~Biomasa+pH+Biomasa:pH, family=poisson(link = log), data=especies)
+names(mod1)
+summary(mod1)
+###mod1contrast<-glm(Especie~Biomasa+pH+Biomasa:pH, family=poisson(link = log), data=especies)
+#model.matrix(mod1contrast)
+
+```
+
+Podemos resumir la información con una tabla análoga de ANOVA que lidie con variables dicretas (número de especies) 
+```{r  anova, eval=TRUE}
+anova(mod1, test="Chisq")
+```
+
+Análisis de devianza
+```{r  devianza, eval=TRUE}
+mod2 <- glm(Especie~Biomasa+pH, family=poisson, data=especies)
+mod3 <- glm(Especie~Biomasa, family=poisson, data=especies)
+anova(mod2, mod1, test="Chi")
+LR<--2*(logLik(mod2)[1]-logLik(mod1)[1])    
+df<-df.residual(mod2)-df.residual(mod1)      
+pchisq(LR,df,lower.tail=F)   
+```
+
+Devianza residual
+```{r  devianza residual, eval=TRUE}
+dev.residual1<-2*sum(especies$Especie*log(especies$Especie/mod1$fitted)-(especies$Especie-mod1$fitted))
+mod1$deviance 
+mod2$deviance 
+residual.dev2<-2*sum(especies$Especie*log(especies$Especie/mod2$fitted)-(especies$Especie-mod2$fitted))
+```
+
+Verificar supuestos
+```{r  residuales, eval=TRUE}
+residuals(mod1, type="response")
+plot(residuals(mod1)~fitted(mod1), ylab="Residuales", xlab="Valores predichos", main="Residuales vs valores predichos")
+abline(h=0)
+```
+
+```{r  levier, eval=TRUE}
+plot(hatvalues(mod1), ylim=c(0,0.5), ylab="Hat values", xlab="Observaciones", main="Efecto levier")
+abline(h=6*2/90, lty=2) # hat = k/n, donde k es el número de parámetros, n es el tamaño muestral
+```
+
+```{r  influencia, eval=TRUE}
+plot(cooks.distance(mod1), ylab="Distancia de Cook", xlab="Observaciones", ylim=c(0,0.5), main="Influencia de las observaciones")
+abline(h=4/(90-6), lty=2) 
+```
+
+```{r  dispersión, eval=TRUE}
+chisq <-sum(((especies$Especie-mod1$fitted)^2)/mod1$fitted)
+c_hat<- chisq/mod1$df.residual
+c_hat_1<- chisq/(length(especies[,1])-length(coefficients(mod1)))
+```
+
+Interpretar output del mod1
+```{r  analisis ph, eval=TRUE}
+##Correr an´álisis separado para cada nivel de pH
+low<-especies[especies$pH=="low", ]
+mid<-especies[especies$pH=="mid", ]
+high<-especies[especies$pH=="high", ]
+mod_low<-glm(Especie~Biomasa, family=poisson, data=low)
+mod_mid<-glm(Especie~Biomasa, family=poisson, data=mid)
+mod_high<-glm(Especie~Biomasa, family=poisson, data=high)
+##comparar output de los tres modelos
+mod_low
+mod_mid
+mod_high
+mod1
+```
+
+Crear hoja dedatos con los valores predichos para cada nivel de pH
+```{r  hoja predichos , eval=TRUE}
+fit_low<-data.frame(fit=fitted(mod_low), low)
+fit_low<-fit_low[order(fit_low$fit), ]
+fit_mid<-data.frame(fit=fitted(mod_mid), mid)
+fit_mid<-fit_mid[order(fit_mid$fit), ]
+fit_high<-data.frame(fit=fitted(mod_high), high)
+fit_high<-fit_high[order(fit_high$fit), ]
+```
+Graficar
+```{r  graficar , eval=TRUE}
+plot(1~1, ylab="Número de especies", xlab="Biomasa", type="n", ylim=range(especies$Especie), xlim=range(especies$Biomasa))
+lines(fit_low$fit~fit_low$Biomasa, lty="solid", col="blue")
+lines(fit_mid$fit~fit_mid$Biomasa, lty="solid", col="red")
+lines(fit_high$fit~fit_high$Biomasa, lty="dashed", col="black")
+legend(x="topright", lty=c("solid", "solid", "dashed"), col=c("blue", "red", "black"), legend=c("bajo", "medio", "alto"), title="nivel de pH")
+```
+
+Predictor lineal y valores predichos
+```{r  predictor lineal , eval=TRUE}
+especies [1,]    #primera observación
+mod1$linear.predictors[1:5]
+mod1$fitted.values[1:5]
+model.matrix(mod1) #extraer matriz
+coef(mod1)
+especies [50,]  
+
+ypredicah50 <- 2.95+(-0.26*5.120968)+
+  (0.48*1)+(0.81*0)+(0.12*5.120968)+(0.155*0)
+
+linpred<-model.matrix(mod1)[50,]%*% coef(mod1)
+#calcular valor predicho de la observaci´ón 50
+exp(linpred) #calcular valor predicho misma escala que la observación original
+```
+
+## Regresión Binomial negativa
+
+Función de densidad para valores que siguen una distribución binomial negativa con parámetro de dispersión  size=k
+```{r  binomial negativa función densidad, eval=TRUE}
+y1<-dnbinom(x=0:20, mu=0.5, size=0.1)
+y2<-dnbinom(x=0:20, mu=0.5, size=1)
+y3<-dnbinom(x=0:20, mu=0.5, size=10)
+y4<-dpois(x=0:20, lambda=0.5)
+layout(mat=matrix(1:4, nrow=2, ncol=2, byrow=TRUE))
+barplot(y1, main=expression(paste("Distribución binomial negativa (", mu, " = 0.5, ", italic(k), " = 0.1)")), names.arg=0:20, ylab="Densidad de x", xlab="Valor de x", cex.lab=1.5, cex.main=1.5)
+barplot(y2, main=expression(paste("Distribución binomial negativa (", mu, " = 0.5, ", italic(k), " = 1)")), names.arg=0:20, ylab="Densidad de x", xlab="Valor de x", cex.lab=1.5, cex.main=1.5)
+barplot(y3, main=expression(paste("Distribución binomial negativa (", mu, " = 0.5, ", italic(k), " = 10)")), names.arg=0:20, ylab="Densidad de x", xlab="Valor de x", cex.lab=1.5, cex.main=1.5)
+barplot(y4, main=expression(paste("Distribución Poisson (", mu, " = 0.5)")), names.arg=0:20, ylab="Densidad de x", xlab="Valor de x", cex.lab=1.5, cex.main=1.5)
+```
+
+Cargar paquete faraway que contiene los datos gala
+```{r  paquete faraway, eval=TRUE}
+library(faraway)
+data(gala)
+attach(gala)
+```
+
+Checar relaciones entre variables
+```{r  relaciones, eval=TRUE}
+layout(mat=matrix(1:6, nrow=2, ncol=3))
+plot(Species~Area, cex.lab=1.3, cex.axis=1.3)
+plot(Species~Elevation, cex.lab=1.3, cex.axis=1.3)
+plot(Species~Nearest, cex.lab=1.3, cex.axis=1.3)
+plot(Species~Scruz, cex.lab=1.3, cex.axis=1.3)
+plot(Species~Adjacent, cex.lab=1.3, cex.axis=1.3)
+```
+
+Transformar a logaritmo para mejorar distribuci´ón de observaciones
+```{r  relaciones log, eval=TRUE}
+layout(mat=matrix(1:4, nrow=2, ncol=2))
+plot(Species~log(Area), cex.lab=1.3, cex.axis=1.3)
+plot(Species~log(Adjacent), cex.lab=1.3, cex.axis=1.3)
+plot(Species~log(Scruz), cex.lab=1.3, cex.axis=1.3)
+```
+
+Linealizar relaciones
+```{r  linealizar relaciones, eval=TRUE}
+gala$log_Area<-log(gala$Area)
+gala$log_Adjacent<-log(gala$Adjacent)
+gala$log_Scruz<-log(gala$Scruz+1)
+```
+Correr modelo
+```{r  modelo, eval=TRUE}
+gala1<-glm(Species~log_Area+Elevation+Nearest+log_Adjacent+log_Scruz, data=gala, family=poisson)
+summary(gala1)
+anova(gala1, test="Chisq")
+```
+
+Verificar supuestos
+```{r  verificar supuestos, eval=TRUE}
+layout(mat=matrix(1:4, nrow=2, ncol=2))
+plot(gala1)
+```
+
+```{r  cook, eval=TRUE}
+plot(cooks.distance(gala1), ylab="Distancia de Cook", xlab="Observaciones", main="Influencia de las observaciones")
+abline(h=4/(30-6), lty=2) 
+```
+
+Chi-square/c_hat. Verificar sobredispersi´ón
+```{r  c-hat, eval=TRUE}
+chisq<-sum(((gala$Species-gala1$fitted)^2)/gala1$fitted)
+c.hat<-chisq/gala1$df.residual
+```
+
+
+Intentar ajustear un modelo de regresión binomial
+```{r  ajustar binomial, eval=TRUE}
+library(MASS)
+mod2<-glm.nb(Species~log_Area+Elevation+Nearest+log_Adjacent+log_Scruz, data=gala) 
+summary(mod2)
+```
+
+```{r  supuestos, eval=TRUE}
+layout(mat=matrix(1:4, nrow=2))
+plot(mod2)
+```
+
+```{r  cook2, eval=TRUE}
+plot(cooks.distance(mod2, ylab="Distancia de Cook", xlab="Observaciones", main="Influencia de las observaciones"))
+```
+
+Correr modelo con glm y parámetro de dispersión obtenido en mod2
+```{r  glm, eval=TRUE}
+mod2b<-glm(Species~log_Area+Elevation+Nearest+log_Adjacent+log_Scruz, data=gala,family=negative.binomial(theta=2.938))
+
+logLik(mod2) 
+#theta es un parámetro adicional
+logLik(mod2b) 
+```
+
+
